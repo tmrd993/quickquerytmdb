@@ -1,11 +1,11 @@
-package quickmoviesearch;
+package tmdbwrapper;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -74,28 +74,23 @@ public class QuickMovieSearch {
 	searchButton.addActionListener(new ActionListener() {
 	    @Override
 	    public void actionPerformed(ActionEvent arg0) {
-		String pictureType = "";
+		BufferedImage picturePoster = null;
 		if (movieButton.isSelected()) {
-		    pictureType = "Movie";
+		    Movie movie = new MovieDataRetriever(searchField.getText()).fetchData();
+		    picturePoster = movie.getPoster();
+
+		    pictureInfoTextArea.setText(movie.toString());
 		} else {
-		    pictureType = "TV";
+		    TvShow tvShow = new TvShowDataRetriever(searchField.getText()).fetchData();
+		    picturePoster = tvShow.getPoster();
+		    pictureInfoTextArea.setText(tvShow.toString());
 		}
 
-		MovieDataRetriever movieData = new MovieDataRetriever(searchField.getText(), pictureType);
-		try {
-		    pictureInfoTextArea.setText(movieData.getPictureInformation());
-		} catch (IOException e) {
-		    pictureInfoTextArea.setText("Start the search by using the search area to the left");
-		}
-		try {
-		    if (movieData.getPoster() != null) {
-			if (((ImageIcon) poster.getIcon()) != null) {
-			    ((ImageIcon) poster.getIcon()).getImage().flush();
-			}
-			poster.setIcon(new ImageIcon(movieData.getPoster()));
+		if (poster != null) {
+		    if (((ImageIcon) poster.getIcon()) != null) {
+			((ImageIcon) poster.getIcon()).getImage().flush();
 		    }
-		} catch (IOException e) {
-		    e.printStackTrace();
+		    poster.setIcon(new ImageIcon(picturePoster));
 		}
 	    }
 	});

@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 
 /**
  * IMPORTANT: This class is NOT part of the API wrapper. 
- *It's just a simple example case, showing how the library could be used in practice. 
+ * It's just a simple example case, showing how the library could be used in practice. 
  *
  * @author Timucin Merdin
  *

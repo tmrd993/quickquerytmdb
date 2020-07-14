@@ -18,7 +18,7 @@ public class MovieDataRetriever extends MediaDataRetriever {
 	if (movieTitle == null) {
 	    throw new IllegalArgumentException("Movie title can't be null");
 	}
-	this.MOVIE_TITLE_FOR_QUERY = movieTitle.replace(" ", "+");
+	this.MOVIE_TITLE_FOR_QUERY = encode(movieTitle);
     }
 
     public Movie fetchData() {
@@ -44,9 +44,11 @@ public class MovieDataRetriever extends MediaDataRetriever {
 	    double voteAverage = movieData.get("vote_average").getAsDouble();
 	    long voteCount = movieData.get("vote_count").getAsLong();
 
-	    String posterPath = movieData.get("poster_path").getAsString();
+	    String posterPath = null;
 	    if (movieData.get("poster_path") == JsonNull.INSTANCE)
 		posterPath = null;
+	    else
+		posterPath = movieData.get("poster_path").getAsString();
 
 	    BufferedImage poster;
 
@@ -92,7 +94,7 @@ public class MovieDataRetriever extends MediaDataRetriever {
      * movies)
      */
     public static MovieDataRetriever[] getMovieDataByQuery(String query) throws IOException {
-	JsonObject rootObject = getMediaBasedOnQueryAsJson("movie", query);
+	JsonObject rootObject = getMediaBasedOnQueryAsJson("movie", encode(query));
 
 	int searchResultSize = rootObject.get("results").getAsJsonArray().size();
 
@@ -128,11 +130,5 @@ public class MovieDataRetriever extends MediaDataRetriever {
 	    genres[i] = genresAsJsonArray.get(i).getAsJsonObject().get("name").getAsString();
 	}
 	return genres;
-    }
-
-    public static void main(String[] args) throws IOException {
-
-	Movie someMovie = new MovieDataRetriever("the avengers").fetchData();
-	System.out.println(someMovie.getMovieStatus());
     }
 }

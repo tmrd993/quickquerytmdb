@@ -18,7 +18,7 @@ public class TvShowDataRetriever extends MediaDataRetriever {
 	if (tvShowTitle == null) {
 	    throw new IllegalArgumentException("TV-show title can't be null");
 	}
-	this.TV_TITLE_FOR_QUERY = tvShowTitle.replace(" ", "+");
+	this.TV_TITLE_FOR_QUERY = encode(tvShowTitle);
     }
 
     public TvShow fetchData() {
@@ -101,7 +101,7 @@ public class TvShowDataRetriever extends MediaDataRetriever {
 	if (query == null)
 	    throw new NullPointerException();
 
-	JsonObject rootObject = getMediaBasedOnQueryAsJson("tv", query.replace(" ", "+"));
+	JsonObject rootObject = getMediaBasedOnQueryAsJson("tv", encode(query));
 
 	int searchResultSize = rootObject.get("results").getAsJsonArray().size();
 

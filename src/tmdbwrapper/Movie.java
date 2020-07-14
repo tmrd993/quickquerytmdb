@@ -83,4 +83,5 @@ public class Movie {
     public BufferedImage getPoster() {
 	return this.POSTER;
     }
+
 }

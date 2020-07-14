@@ -4,8 +4,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+
 import javax.imageio.ImageIO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -165,5 +168,14 @@ public abstract class MediaDataRetriever {
 	BufferedImage poster = ImageIO.read(posterQuery);
 
 	return poster;
+    }
+    
+    protected static String encode(String query) {
+	try {
+	    return URLEncoder.encode(query, "UTF-8");
+	} catch (UnsupportedEncodingException e) {
+	    e.printStackTrace();
+	}
+	return null;
     }
 }

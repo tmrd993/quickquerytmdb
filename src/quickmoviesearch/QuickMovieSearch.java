@@ -17,6 +17,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+/**
+ * IMPORTANT: This class is NOT part of the API wrapper. 
+ *It's just a simple example case, showing how the library could be used in practice. 
+ *
+ * @author Timucin Merdin
+ *
+ */
+
 public class QuickMovieSearch {
     private JTextArea pictureInfoTextArea;
 

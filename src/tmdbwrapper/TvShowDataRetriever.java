@@ -30,18 +30,24 @@ public class TvShowDataRetriever extends MediaDataRetriever {
 	String tvStatus = tvData.get("status").getAsString();
 	String[] genres = getGenresFromJson(tvData);
 
-	String firstAirDate = tvData.get("first_air_date").getAsString();
+	String firstAirDate = "";
 	if (tvData.get("first_air_date") == JsonNull.INSTANCE)
 	    firstAirDate = "Unavailable";
-
-	String lastAirDate = tvData.get("last_air_date").getAsString();
+	else
+	    firstAirDate = tvData.get("first_air_date").getAsString();
+	
+	String lastAirDate = "";
 	if (tvData.get("last_air_date") == JsonNull.INSTANCE)
 	    lastAirDate = "Unavailable";
+	else
+	   lastAirDate = tvData.get("last_air_date").getAsString();
 
-	String network = tvData.get("networks").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
+	String network = "";
 	if (tvData.get("networks").getAsJsonArray().size() == 0)
 	    network = "Unavailable";
-
+	else
+	    network = tvData.get("networks").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
+	
 	int numOfSeasons = tvData.get("number_of_seasons").getAsInt();
 	double voteAverage = tvData.get("vote_average").getAsDouble();
 	long voteCount = tvData.get("vote_count").getAsLong();
@@ -97,11 +103,19 @@ public class TvShowDataRetriever extends MediaDataRetriever {
      * 
      * @throws IOException if an error occurs while decoding the search URL
      */
-    public static TvShowDataRetriever[] getTvShowDataByQuery(String query) throws IOException {
+    public static TvShowDataRetriever[] getTvShowDataByQuery(String query) {
 	if (query == null)
 	    throw new NullPointerException();
 
-	JsonObject rootObject = getMediaBasedOnQueryAsJson("tv", encode(query));
+	JsonObject rootObject = null;
+	try {
+	    rootObject = getMediaBasedOnQueryAsJson("tv", encode(query));
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	
+	if(rootObject == null)
+	    return null;
 
 	int searchResultSize = rootObject.get("results").getAsJsonArray().size();
 

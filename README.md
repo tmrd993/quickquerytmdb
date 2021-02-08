@@ -19,6 +19,11 @@ public abstract class MediaDataRetriever {
     private static final String API_KEY = "<YOUR API KEY HERE>";
     ......
 ```
+
+Also note that this library is not yet complete.
+It is a WIP and as such, if you really want to use it, clone the repo and copy whatever classes you need and compile them yourself.
+
+
 ## Searching for specific movies/TV-shows
 
 To search for a specific movie, simply create a MovieDataRetriever object and call the fetch method. A few examples on how it works can be seen below.  

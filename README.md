@@ -48,7 +48,7 @@ TvShow show = retriever.searchExact("EXACT_SHOW_TITLE_HERE");
 
 Also note that TvShows do not have the same fields as movies.
 
-For queries using the Retriever constructors, the search term (title of the movie/show) has to be **exact**. The searchExact method isn't case-sensitive however, so the following queries would return the same movie.
+For queries using the searchExact method, the search term (title of the movie/show) has to be **exact**. The searchExact method isn't case-sensitive however, so the following queries would return the same movie.
 
 ```java
 MovieDataRetriever retriever = new MovieDataRetriever("Hereditary");

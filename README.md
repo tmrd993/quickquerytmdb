@@ -11,29 +11,18 @@ https://developers.themoviedb.org/3/getting-started/introduction
 - Get collection of tv-shows based on query
 
 # How-to
-Note that this library can't be used without an API-Key. Use the link above to get one.  
-Once you have an API-Key, replace the empty API_KEY field in the MediaDataRetriever class with your own key.
-
-```java
-public abstract class MediaDataRetriever {
-    private static final String API_KEY = "<YOUR API KEY HERE>";
-    ......
-```
-
-Also note that this library is not yet complete.
-It is a WIP and as such, if you really want to use it, clone the repo and copy whatever classes you need and compile them yourself.
-
+Note that this library can't be used without an API-Key. Use the link above to get one.
 
 ## Searching for specific movies/TV-shows
 
-To search for a specific movie, simply create a MovieDataRetriever object and call the fetch method. A few examples on how it works can be seen below.  
+To search for a specific movie, simply create a MovieDataRetriever object, pass your API-Key in the constructor and call the searchExact method. A few examples on how it works can be seen below.  
 
 ```Java
-MovieDataRetriever retriever = new MovieDataRetriever("Hereditary");
-Movie someMovie = retriever.fetchData();
+MovieDataRetriever retriever = new MovieDataRetriever("<YOUR_API_KEY_HERE>");
+Movie someMovie = retriever.searchExact("<EXACT_MOVIE_TITLE_HERE>");
 ```
 
-The fetchData Method returns the actual data. More specifically, it returns an immutable Movie object which has several convenience methods to access the data. Calling the overridden toString() method returns the String representation of the Movie object. For the query above, this representation looks like this
+The searchExact Method returns the actual data. More specifically, it returns an immutable Movie object with methods to access the data. Calling the overridden toString() method returns the String representation of the Movie object. If we search for "Hereditary", this representation looks like this
 
 ```
 Title: Hereditary
@@ -53,38 +42,34 @@ Which is just a summary of all fields containing movie data in the Movie class. 
 Note that searching for a TV-show using the MovieDataRetriever will **not** work. Use the TvDataRetriever class for TV-shows.
 
 ```java
-TvShowDataRetriever retriever = new TvShowDataRetriever("The Wire");
-TvShow show = retriever.fetchData();
+TvShowDataRetriever retriever = new TvShowDataRetriever("YOUR_API_KEY_HERE");
+TvShow show = retriever.searchExact("EXACT_SHOW_TITLE_HERE");
 ```
 
-Also note that TvShows do not have the same fields as movies. 
+Also note that TvShows do not have the same fields as movies.
 
-For queries using the Retriever constructors, the search term (title of the movie/show) has to be **exact**. The constructors aren't case-sensitive however, so the following queries would return the same movie.
+For queries using the Retriever constructors, the search term (title of the movie/show) has to be **exact**. The searchExact method isn't case-sensitive however, so the following queries would return the same movie.
 
 ```java
 MovieDataRetriever retriever = new MovieDataRetriever("Hereditary");
-retriever = new MovieDataRetriever("hereditary");
-retriever = new MovieDataRetriever("heReDitaRy");
-retriever = new MovieDataRetriever("HEREDITARY");
+retriever.searchExact("hereditary");
+retriever.searchExact("heReDitaRy");
+retriever.searchExact("HEREDITARY");
 ```
 
 ## Non-exact search
 
-Using a query string and the static factory method getMovieDataByQuery which has the following signature, it is possible to conduct non exact queries.
+Using a query string, it is possible to conduct non exact queries. Use the searchByQuery method for this.
 ```
-public static MovieDataRetriever[] getMovieDataByQuery(String query)
+public List<Movie> searchByQuery(String query)
 ```
 
-The method returns an array of MovieDataRetriever objects based on the given search query. You can fetch the data one by one or use the method
-```
-public static Movie[] fetchAll(MovieDataRetriever[] movieData)
-```
-which returns an array of Movie objects based on the search. It is also possible to save unrelated MovieDataRetriever objects and call the fetchAll method.
+The method returns a list of Movie objects based on the query string.  
 
-An example query looks like this
+An example query looks like this  
 ```java
-MovieDataRetriever[] retrievers = getMovieDataByQuery("dracula");
-Movie[] movies = fetchAll(retrievers);
+MovieDataRetriever retriever = new MovieDataRetriever("YOUR_API_KEY_HERE);
+List<Movie> movies = retriever.searchByQuery("QUERY_HERE");
 ```
 
 Which would return a maximum of 20 movies based on the given query. 
@@ -92,8 +77,8 @@ Which would return a maximum of 20 movies based on the given query.
 The same process can be repeated for TV-shows
 
 ```java
-TvShowDataRetriever[] retrievers = TvShowDataRetriever.getTvShowDataByQuery("walking dead");
-TvShow[] shows = TvShowDataRetriever.fetchAll(retrievers);
+TvShowDataRetriever retriever = new TvShowDataRetriever("YOUR_API_KEY_HERE);
+List<TvShow> tvShows = retriever.searchByQuery("QUERY_HERE");
 ```
 
 # Example client with GUI    

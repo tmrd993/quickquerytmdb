@@ -1,4 +1,4 @@
-package tmdbwrapper;
+package tmdbwrapper.model;
 
 import java.awt.image.BufferedImage;
 

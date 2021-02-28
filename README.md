@@ -11,7 +11,7 @@ https://developers.themoviedb.org/3/getting-started/introduction
 - Get collection of tv-shows based on query
 
 # How-to
-Note that this library can't be used without an API-Key. Use the link above to get one.
+Note that this library can't be used without an API-Key. Use the link above to get one. This is also still a WIP (it's still fully functional right now) so you'll have to clone the project and package it yourself. 
 
 ## Searching for specific movies/TV-shows
 
